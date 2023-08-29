@@ -4,6 +4,7 @@ import './globals.css';
 import { Roboto } from 'next/font/google';
 import SideBar from '@/components/SideBar';
 import TopNavigation from '@/components/TopNavigation';
+import { useState } from 'react';
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
@@ -13,6 +14,8 @@ const roboto = Roboto({
 });
 
 export default function RootLayout({ children }) {
+  const [isExpanded, setIsExpanded] = useState(false)
+
   return (
     <html lang="en">
       <body className={`${roboto.className} bg-slate-100`}>
