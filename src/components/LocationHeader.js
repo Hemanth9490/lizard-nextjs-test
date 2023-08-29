@@ -11,13 +11,13 @@ const determineColor = (name) => {
   switch (name) {
     case 'Active Alerts':
       return {
-        textColor: 'text-green-500',
-        bgColor: 'bg-green-100',
+        textColor: 'text-red-500',
+        bgColor: 'bg-red-100',
       };
     case 'Open Alerts':
       return {
-        textColor: 'text-orange-500',
-        bgColor: 'bg-orange-100',
+        textColor: 'text-amber-500',
+        bgColor: 'bg-amber-100',
       };
     case 'Effectiveness':
       return {
@@ -36,8 +36,8 @@ const determineColor = (name) => {
       };
     case 'Humidity':
       return {
-        textColor: 'text-orange-500',
-        bgColor: 'bg-orange-100',
+        textColor: 'text-amber-500',
+        bgColor: 'bg-amber-100',
       };
     case 'Ambient':
       return {
