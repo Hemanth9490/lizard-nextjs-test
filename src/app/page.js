@@ -1,5 +1,10 @@
-import Image from 'next/image';
+import { redirect } from "next/navigation";
+
+export const metadata = {
+  title: 'Lizard Monitoring',
+  description: 'www.lizardmonitoring.com',
+};
 
 export default function Home() {
-  return <div>Home page</div>;
+  redirect('/locations/netnum/-500');
 }
