@@ -3,21 +3,23 @@ import React, { useEffect } from 'react';
 import c3 from 'c3';
 import 'c3/c3.css';
 
-const ChartComponent = ({ data }) => {
-  // console.log(data, 'data');
+const ChartComponent = ({ data = 1050 }) => {
   useEffect(() => {
-    createChart();
+
+    createChart(data);
+
   }, []);
 
-  const createChart = () => {
+  const createChart = (data) => {
+    console.log(data, "data")
     c3.generate({
       bindto: '#chart',
       size: {
         height: 180,
-        width: 1050,
+        width: data,
       },
       color: {
-        pattern: ['#FF8110']
+        pattern: ['#FF8110'],
       },
       data: {
         columns: [['Out of range Alerts', 30, 200, 100]],

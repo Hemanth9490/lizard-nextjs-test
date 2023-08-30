@@ -1,13 +1,13 @@
 // import { locationDetails } from '@/data/location';
+import { timeAgo } from '@/helpers/dataFormate';
 import Link from 'next/link';
 import { FiSearch } from 'react-icons/fi';
 
 const LocationListItem = ({ location }) => {
   return (
     <Link
-      href={`/${location.netnum < 0 ? 'locations' : 'sensors'}/netnum/${
-        location.netnum
-      }`}
+      href={`/${location.netnum < 0 ? 'locations' : 'sensors'}/netnum/${location.netnum
+        }`}
     >
       <div className="flex cursor-pointer rounded border border-slate-200 px-6 py-5 hover:bg-slate-50">
       <div class="flex flex-1 items-center gap-4">
@@ -41,13 +41,15 @@ const LocationListItem = ({ location }) => {
                 Open Alerts
               </p>
               <span className="h-2 w-2 rounded-full bg-slate-400"></span>
-              {location.subLocationCount && (
+              {location.subLocationCount ? (
                 <p className="text-body-30 text-slate-500">
                   <span className="text-subtitle-40 font-semibold text-slate-900">
                     {location?.subLocationCount}
                   </span>{' '}
                   Sub Locations
                 </p>
+              ) : (
+                ''
               )}
               {location.sensorsCount && (
                 <p className="text-body-30 text-slate-500">
@@ -62,7 +64,7 @@ const LocationListItem = ({ location }) => {
         </div>
         {location.lastCommunication && (
           <p className="text-body-10 text-slate-500">
-            updated {location.lastCommunication} ago
+            {timeAgo(location.lastCommunication)}
           </p>
         )}
       </div>

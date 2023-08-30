@@ -14,7 +14,7 @@ const roboto = Roboto({
 });
 
 export default function RootLayout({ children }) {
-  const [isExpanded, setIsExpanded] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <html lang="en">

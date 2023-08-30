@@ -1,6 +1,7 @@
+import Breadcrumbs from '@/components/Breadcrumbs';
 import LocationHeader from '@/components/LocationHeader';
-import LocationList from '@/components/LocationList';
-import ChartComponent from '@/components/graph';
+import SensorList from '@/components/sensorList';
+import { notFound } from 'next/navigation';
 
 export async function generateMetadata({ params }) {
   const netnum = params.netnum;
@@ -11,19 +12,34 @@ export async function generateMetadata({ params }) {
 }
 
 async function getData(netnum) {
-  const res = await fetch(`http://localhost:3000/api/sensors?netnum=${netnum}`);
-  console.log(res, 'resresresresres');
+  let res = await fetch(`http://localhost:8080/app/location/showSensors?netnum=${netnum}`)
   if (!res.ok) {
-    throw new Error('Failed to fetch data');
+    notFound();
+  }
+  return res.json()
+}
+async function getLocationDetails(netnum) {
+  const res = await fetch(`http://localhost:3000/api/locations?netnum=${netnum}`);
+  if (!res.ok) {
+    notFound();
   }
   return res.json();
 }
 export default async function LocationPage({ params }) {
+  const links = [
+    { href: '/', text: 'Amazon' },
+    { href: '/', text: 'Fresh' },
+    { href: '/', text: 'Amoc' },
+  ];
   const data = await getData(params.netnum);
-  console.log(data, 'sensors data');
+  const locationDetails = await getLocationDetails(params.netnum);
   return (
-    <div className="flex flex-col gap-4">
-      <ChartComponent data={data} />
+    <div className="flex flex-col gap-2">
+      <Breadcrumbs links={links} />
+      <div className="flex flex-col gap-4">
+        <LocationHeader locationDetails={locationDetails.locationDetails} contentOnly={true} />
+        <SensorList data={data} sensorsList={data.sensorList} />
+      </div>
     </div>
   );
 }

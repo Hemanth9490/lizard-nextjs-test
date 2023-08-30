@@ -1,6 +1,7 @@
 import Breadcrumbs from '@/components/Breadcrumbs';
 import LocationHeader from '@/components/LocationHeader';
 import LocationList from '@/components/LocationList';
+import { notFound } from 'next/navigation';
 
 export async function generateMetadata({ params }) {
   const netnum = params.netnum;
@@ -15,7 +16,7 @@ async function getData(netnum) {
     `http://localhost:3000/api/locations?netnum=${netnum}`
   );
   if (!res.ok) {
-    throw new Error('Failed to fetch data');
+    notFound();
   }
   return res.json();
 }
@@ -31,22 +32,14 @@ export default async function LocationPage({ params }) {
   ];
   return (
     <div className="flex flex-col gap-2">
-      {/* netnum = {params.netnum} */}
       <Breadcrumbs links={links} />
       <div className="flex flex-col gap-4">
-      <LocationHeader
-        locationDetails={data.locationDetails}
-        netnum={params.netnum}
-      />
-      <LocationList subLocationsList={data.subLocationsList} />
+        <LocationHeader
+          locationDetails={data.locationDetails}
+          netnum={params.netnum}
+        />
+        <LocationList subLocationsList={data.subLocationsList} />
       </div>
     </div>
-  //   <div className="flex flex-col gap-2">
-  //   <Breadcrumbs links={links} />
-  //   <div className="flex flex-col gap-4">
-  //     <LocationHeader />
-  //     <LocationList />
-  //   </div>
-  // </div>
   );
 }

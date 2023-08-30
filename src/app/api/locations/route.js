@@ -10,14 +10,10 @@ export async function GET(request) {
       `SELECT *, (SELECT count(*) FROM prod.location WHERE parentId = l2.id) AS childCount FROM prod.location l2 WHERE netnum =  ${netnum} UNION SELECT *, (SELECT count(*) FROM prod.location WHERE parentId = l1.id) AS childCount FROM prod.location l1 WHERE parentId = (SELECT id FROM prod.location WHERE netnum = ${netnum});`
     );
     const subLocationsList = [];
-    let active = 0;
-    let open = 0;
     rows.map((eachLocation) => {
-      active = active + eachLocation.active;
-      open = active + eachLocation.unacknowledged_alert_count;
       subLocationsList.push({
         unacknowledgedAlertCount: eachLocation.unacknowledged_alert_count,
-        activeAlertCount: eachLocation.active,
+        activeAlertCount: eachLocation.active_alert_count,
         lastCommunication: eachLocation.last_communication,
         netnum: eachLocation.netnum,
         address: eachLocation.address,

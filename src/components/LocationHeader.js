@@ -75,17 +75,15 @@ const Details = (props) => {
 
   return (
     <div
-      className={`flex flex-col ${
-        isAlert
-          ? `${widthStyle} px-6 py-4 bg-white rounded border border-slate-200`
-          : ''
-      }`}
+      className={`flex flex-col ${isAlert
+        ? `${widthStyle} px-6 py-4 bg-white rounded border border-slate-200`
+        : ''
+        }`}
     >
       {/* If it's an alert, space out the items a bit more for better visibility. */}
       <div
-        className={`flex flex-col ${
-          isAlert ? 'h-full justify-between gap-2' : ''
-        }`}
+        className={`flex flex-col ${isAlert ? 'h-full justify-between gap-2' : ''
+          }`}
       >
         {/* Display the name of the item with a special icon. */}
         <p className="flex gap-2 items-center text-subtitle-20 text-slate-500 font-medium">
@@ -98,9 +96,8 @@ const Details = (props) => {
         </p>
         {/* Display the value of the item, using different text sizes based on whether it's an alert. */}
         <p
-          className={`font-semibold ${
-            isAlert ? 'text-display-70' : 'text-title-50'
-          }`}
+          className={`font-semibold ${isAlert ? 'text-display-70' : 'text-title-50'
+            }`}
         >
           {props.value}
         </p>
@@ -109,16 +106,22 @@ const Details = (props) => {
   );
 };
 
-export default function LocationHeader({contentOnly = true, locationDetails}) {
+export default function LocationHeader({
+  contentOnly = true,
+  locationDetails,
+}) {
+  console.log(locationDetails, "")
+  locationDetails = { ...locationDetails, effectiveness: 0, uptime: 0, showEffectivenessAndUpTime: true }
   const isAdditionalDetails =
-  locationDetails.ambient ||
-  locationDetails.dewpoint ||
-  locationDetails.humidity;
+    locationDetails.ambient ||
+    locationDetails.dewpoint ||
+    locationDetails.humidity;
   // Checking for effectiveness and uptime data from response and based on that updating the width dynamically on UI.
   const isEffectivenessOrUptimePresent =
-  locationDetails.effectiveness || locationDetails.uptime;
-  const widthValue = !isEffectivenessOrUptimePresent ? 'w-[195px]' : 'w-[406px]';
-  console.log(locationDetails)
+    locationDetails.effectiveness || locationDetails.uptime;
+  const widthValue = !isEffectivenessOrUptimePresent
+    ? 'w-[195px]'
+    : 'w-[406px]';
   return (
     <div className="w-full flex flex-col gap-4 px-7 py-5 bg-white rounded border border-slate-200 shadow-sm">
       {/* This section is for displaying the title of the location. */}
@@ -149,62 +152,72 @@ export default function LocationHeader({contentOnly = true, locationDetails}) {
       </div>
 
       {/* This section is for displaying content related to the location. */}
-      {contentOnly && <div className='flex gap-4'>
-        {/* This section is for meta data related to the location. */}
-        <div className={`${widthValue} flex flex-wrap justify-between gap-4`}>
-          {/* Display alerts and other critical data. */}
-          <Details
-            alert={true}
-            name="Active Alerts"
-            value={locationDetails.active_alert_count}
-          />
-          <Details
-            alert={true}
-            name="Open Alerts"
-            value={locationDetails.unacknowledged_alert_count}
-          />
-          {locationDetails.effectiveness && (
+      {contentOnly && (
+        <div className="flex gap-4">
+          {/* This section is for meta data related to the location. */}
+          <div className={`${widthValue} flex flex-wrap justify-between gap-4`}>
+            {/* Display alerts and other critical data. */}
             <Details
               alert={true}
-              name="Effectiveness"
-              value={locationDetails.effectiveness}
+              name="Active Alerts"
+              value={locationDetails.active_alert_count}
             />
-          )}
-          {locationDetails.uptime && (
             <Details
               alert={true}
-              name="Uptime"
-              value={locationDetails.uptime}
+              name="Open Alerts"
+              value={locationDetails.unacknowledged_alert_count}
             />
+            {locationDetails.effectiveness != 0 && (
+              <Details
+                alert={true}
+                name="Effectiveness"
+                value={locationDetails.effectiveness}
+              />
+            )}
+            {locationDetails.uptime != 0 && (
+              <Details
+                alert={true}
+                name="Uptime"
+                value={locationDetails.uptime}
+              />
+            )}
+          </div>
+
+          {/* Placeholder for graphical data, might contain charts or graphs in the future. */}
+          <div className="flex flex-col justify-between grow bg-white border border-slate-200 rounded  py-4 px-4">
+            {/* Heading */}
+            <div className="flex justify-between">
+              <p className="text-subtitle-20 text-slate-900 font-medium">
+                Top Alerting Locations for 30 Days
+              </p>
+              <button className="text-sky-500 font-medium text-body-20 ">
+                view all
+              </button>
+            </div>
+            {/* Chart Component */}
+            <div className="">
+              <ChartComponent data={locationDetails.showEffectivenessAndUpTime ? 840 : 1050} />
+            </div>
+          </div>
+
+          {/* Display additional details if they exist. */}
+          {isAdditionalDetails && (
+            <div className="w-[200px] flex flex-col justify-between px-5 py-4 bg-white rounded border border-slate-200">
+              {Object.entries(currentLocation.additionalDetails).map(
+                ([key, value], index, array) => (
+                  <Fragment key={key}>
+                    <Details name={nameMapping[key]} value={value + ' °F'} />
+                    {/* Add a horizontal line separator between items, but not after the last one. */}
+                    {index !== array.length - 1 && (
+                      <hr className="border-t-slate-300" />
+                    )}
+                  </Fragment>
+                )
+              )}
+            </div>
           )}
         </div>
-
-        {/* Placeholder for graphical data, might contain charts or graphs in the future. */}
-        <div className='flex flex-col justify-between grow bg-white border border-slate-200 rounded  py-4 px-4'>
-          {/* Heading */}
-          <div className='flex justify-between'>
-            <p className='text-subtitle-20 text-slate-900 font-medium'>Top Alerting Locations for 30 Days</p>
-            <button className='text-sky-500 font-medium text-body-20 '>view all</button>
-          </div>
-          {/* Chart Component */}
-          <div className=''>
-            <ChartComponent data={''} />
-          </div>
-        </div>
-
-        {/* Display additional details if they exist. */}
-        {isAdditionalDetails && <div className='w-[200px] flex flex-col justify-between px-5 py-4 bg-white rounded border border-slate-200'>
-          {
-            Object.entries(currentLocation.additionalDetails).map(([key, value], index, array) => (
-              <Fragment key={key}>
-                <Details name={nameMapping[key]} value={value + " °F"} />
-                {/* Add a horizontal line separator between items, but not after the last one. */}
-                {index !== array.length - 1 && <hr className='border-t-slate-300' />}
-              </Fragment>
-            ))
-          }
-        </div>}
-      </div>}
+      )}
     </div>
   );
 }
