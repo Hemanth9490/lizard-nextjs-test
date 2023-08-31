@@ -155,7 +155,7 @@ export default function SensorList({ sensorsList, data }) {
             </div>
             <div className="flex flex-col gap-4">
                 {sensorsList.map((eachSensor, index) => (
-                    <SensorListItemDetails key={index} sensor={eachSensor} trigger={data.alertSettingTriggersHTMLList[index]} />
+                    <SensorListItemDetails key={index} sensor={eachSensor} />
                 ))}
             </div>
         </div>

@@ -12,7 +12,7 @@ export async function generateMetadata({ params }) {
 }
 
 async function getData(netnum) {
-  let res = await fetch(`http://localhost:8080/app/location/showSensors?netnum=${netnum}`)
+  let res = await fetch(`http://localhost:3000/api/sensors?netnum=${netnum}`)
   if (!res.ok) {
     notFound();
   }
@@ -25,6 +25,7 @@ async function getLocationDetails(netnum) {
   }
   return res.json();
 }
+
 export default async function LocationPage({ params }) {
   const links = [
     { href: '/', text: 'Amazon' },
@@ -38,7 +39,7 @@ export default async function LocationPage({ params }) {
       <Breadcrumbs links={links} />
       <div className="flex flex-col gap-4">
         <LocationHeader locationDetails={locationDetails.locationDetails} contentOnly={true} />
-        <SensorList data={data} sensorsList={data.sensorList} />
+        <SensorList data={data} sensorsList={data.rows} />
       </div>
     </div>
   );
