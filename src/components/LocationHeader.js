@@ -110,7 +110,7 @@ export default function LocationHeader({
   contentOnly = true,
   locationDetails,
 }) {
-  console.log(locationDetails, "")
+  
   locationDetails = { ...locationDetails, effectiveness: 0, uptime: 0, showEffectivenessAndUpTime: true }
   const isAdditionalDetails =
     locationDetails.ambient ||

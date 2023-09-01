@@ -11,7 +11,7 @@ const ChartComponent = ({ data = 1050 }) => {
   }, []);
 
   const createChart = (data) => {
-    console.log(data, "data")
+    
     c3.generate({
       bindto: '#chart',
       size: {
