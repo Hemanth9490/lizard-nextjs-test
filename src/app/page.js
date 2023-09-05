@@ -6,5 +6,5 @@ export const metadata = {
 };
 
 export default function Home() {
-  redirect('/locations/netnum/-500');
+  redirect('/app/locations/netnum/-200');
 }

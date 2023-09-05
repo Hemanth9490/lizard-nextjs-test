@@ -1,7 +1,24 @@
+"use client"
+import useApi from '@/helpers/useApi';
 import Link from 'next/link';
 import { FiChevronRight } from 'react-icons/fi';
 
-export default function Breadcrumbs({ links }) {
+export default function Breadcrumbs({ links, data, cookieStore }) {
+  console.log(data, "data")
+  const {
+    data: products,
+    loading,
+    error,
+  } = useApi(`http://localhost:8080/app/location/showSensors?netnum=-200`);
+  console.log(products, "products")
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
   return (
     <nav className="flex text-slate-700 text-body-30 font-medium">
       {links.map((link, index) => (

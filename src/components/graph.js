@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import c3 from 'c3';
 import 'c3/c3.css';
 
+
 const ChartComponent = ({ data = 1050 }) => {
   useEffect(() => {
 
@@ -11,7 +12,7 @@ const ChartComponent = ({ data = 1050 }) => {
   }, []);
 
   const createChart = (data) => {
-    
+
     c3.generate({
       bindto: '#chart',
       size: {

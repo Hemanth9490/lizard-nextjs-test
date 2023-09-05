@@ -16,7 +16,7 @@ const menuItems = [
   {
     icon: <FaGlobeAmericas />,
     name: 'Navigate Facilities',
-    href: '/locations/netnum/-500',
+    href: '/app/locations/netnum/-500',
   },
   { icon: <FaBell />, name: 'Alert Dashboard', href: '/' },
   { icon: <FaTruck />, name: 'Vehicles', href: '/' },

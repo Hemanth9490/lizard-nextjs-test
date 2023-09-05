@@ -3,9 +3,12 @@ import { FaLocationDot } from 'react-icons/fa6';
 
 import { selectedLocatoin as currentLocation } from '@/data/location';
 import { Fragment } from 'react';
-import ChartComponent from './graph';
-import { timeAgo } from '@/helpers/dataFormate';
 
+import { timeAgo } from '@/helpers/dataFormate';
+import dynamic from 'next/dynamic';
+const ChartComponent = dynamic(() => import('./graph'), {
+  ssr: false,
+});
 // this is to determine the color for the icons inside the detail cards.
 const determineColor = (name) => {
   switch (name) {
@@ -110,7 +113,7 @@ export default function LocationHeader({
   contentOnly = true,
   locationDetails,
 }) {
-  
+
   locationDetails = { ...locationDetails, effectiveness: 0, uptime: 0, showEffectivenessAndUpTime: true }
   const isAdditionalDetails =
     locationDetails.ambient ||
